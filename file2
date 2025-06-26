@@ -1,0 +1,110 @@
+// Backend: Add eligibility support
+
+// Update Game schema to include eligibility field
+const mongoose = require('mongoose');
+
+const gameSchema = new mongoose.Schema({
+  name: String,
+  teamA: String,
+  teamB: String,
+  kickoff: Date,
+  isPlayoff: Boolean,
+  round: String,
+  isEligibleForPicks: { type: Boolean, default: false },
+  winner: String,
+  odds: {
+    teamA: Number,
+    teamB: Number
+  },
+  totalPoints: Number
+});
+
+module.exports = mongoose.model('Game', gameSchema);
+
+// Add controller method in gamesController.js
+exports.updateEligibility = async (req, res) => {
+  const { updates } = req.body;
+  try {
+    const promises = updates.map(({ gameId, isEligibleForPicks }) =>
+      Game.findByIdAndUpdate(gameId, { isEligibleForPicks })
+    );
+    await Promise.all(promises);
+    res.json({ message: 'Eligibility updated' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update game eligibility' });
+  }
+};
+
+// Leaderboard Logic with Tie Breaker
+/* ... existing logic ... */
+
+// My Picks Page UI Component (React example)
+/* ... existing logic ... */
+
+// Picks Submission Wizard UI (Step 1: Bowl Pick Flow)
+/* ... existing logic ... */
+
+// CFP Bracket UI Component (React example)
+/*
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function CFPBracket({ onBracketSubmit }) {
+  const [games, setGames] = useState([]);
+  const [picks, setPicks] = useState({});
+
+  useEffect(() => {
+    axios.get('/api/games').then(res => {
+      const playoffGames = res.data.filter(g => g.isPlayoff);
+      setGames(playoffGames);
+    });
+  }, []);
+
+  const handlePick = (gameId, team) => {
+    setPicks(prev => ({ ...prev, [gameId]: team }));
+  };
+
+  const isComplete = games.length && games.every(g => picks[g._id]);
+
+  return (
+    <div className="p-4 md:p-6 bg-espnGray text-white rounded shadow">
+      <h2 className="text-xl md:text-2xl font-retro mb-4">CFP Bracket</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {games.map((game) => (
+          <div key={game._id} className="bg-espnDark p-4 rounded">
+            <div className="text-espnOrange font-retro mb-2">{game.round}: {game.name}</div>
+            <div className="mb-2">
+              <button
+                onClick={() => handlePick(game._id, game.teamA)}
+                className={`block w-full text-left py-2 px-4 mb-2 rounded border ${picks[game._id] === game.teamA ? 'bg-green-700' : 'bg-gray-700'}`}
+              >{game.teamA}</button>
+              <button
+                onClick={() => handlePick(game._id, game.teamB)}
+                className={`block w-full text-left py-2 px-4 rounded border ${picks[game._id] === game.teamB ? 'bg-green-700' : 'bg-gray-700'}`}
+              >{game.teamB}</button>
+            </div>
+          </div>
+        ))}
+      </div>
+      {isComplete && (
+        <button
+          onClick={() => onBracketSubmit(picks)}
+          className="mt-6 bg-espnOrange text-black px-6 py-2 rounded"
+        >Review Picks</button>
+      )}
+    </div>
+  );
+}
+*/
+
+// Registration Update - Add Password Field (Frontend & Backend Validation Needed)
+/*
+<form>
+  <input type="text" name="firstName" placeholder="First Name" required />
+  <input type="text" name="lastName" placeholder="Last Name" required />
+  <input type="email" name="email" placeholder="Email" required />
+  <input type="text" name="username" placeholder="Username" required />
+  <input type="password" name="password" placeholder="Create Password" required />
+  <button type="submit">Sign Up</button>
+</form>
+*/
