@@ -1,0 +1,30 @@
+cfb-pickem/
+├── client/                      # Frontend (React)
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── Bracket.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   └── Picks.jsx
+│   │   ├── App.jsx
+│   │   └── index.js
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   └── package.json
+│
+├── server/                     # Backend (Node.js + Express + MongoDB)
+│   ├── controllers/
+│   │   └── gamesController.js
+│   ├── models/
+│   │   └── Game.js
+│   ├── routes/
+│   │   └── games.js
+│   ├── index.js                # Express app entry point
+│   └── package.json
+│
+├── .gitignore
+├── README.md
+└── package.json                # Optional root-level tooling
