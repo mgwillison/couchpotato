@@ -1,0 +1,20 @@
+# Now let's add boilerplate content to key files
+
+files_content = {
+    "README.md": """# College Football Bowl Pick 'Em
+
+An invitation-only app for selecting college football bowl winners and filling out the College Football Playoff bracket.
+
+## Features
+- Bowl pick'em interface
+- CFP bracket selection
+- Scoring and leaderboard (coming soon)
+- Invitation-only access
+
+## Setup
+
+### Frontend
+```bash
+cd client
+npm install
+npm run dev
